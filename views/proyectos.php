@@ -23,8 +23,16 @@ if (isset($_SESSION['numControl'])) {
     <meta name="author" content="" />
 
     <title>My Repository</title>
+    <!-- Custom styles for this page -->
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css"
+    />
+
 
     <!-- Custom fonts for this template-->
+
     <link
       href="../vendor/fontawesome-free/css/all.min.css"
       rel="stylesheet"
@@ -80,7 +88,7 @@ if (isset($_SESSION['numControl'])) {
 
             <!-- Content Row -->
             <div class="row">
-              <div class="col-xl-12 col-md-6 mb-4">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mb-4">
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Lista</h6>
@@ -89,7 +97,7 @@ if (isset($_SESSION['numControl'])) {
                     <div class="table-responsive">
                       <table
                         class="table table-bordered"
-                        id="dataTable"
+                        id="dataTableProjects"
                         width="100%"
                         cellspacing="0"
                       >
@@ -117,13 +125,12 @@ if (isset($_SESSION['numControl'])) {
                             ?></td>
                             <td><a href="<?php echo $proyecto['Ruta']?>">Abrir</a></td>
                             <td>
-                            <a class="btn btn-primary modificar" id="<?php echo $proyecto['Id']?>">
-                              <i class="fas fa-edit text-white"></i></a>
+                            <button class="btn btn-primary" onclick="editProject(<?php echo $proyecto['Id']?>)">
+                              <i class="fas fa-edit text-white"></i></button>
                             </td>
                             <td>
-                              <a class="btn btn-danger eliminar" id="<?php echo $proyecto['Id']?>">
-                              <i class="fas fa-trash-alt text-white"></i></a>
-                              
+                              <button class="btn btn-danger" onclick="deleteProject(<?php echo $proyecto['Id']?>)">
+                              <i class="fas fa-trash-alt text-white"></i></button>
                             </td>
                           </tr>
                           <?php } ?>
@@ -219,6 +226,85 @@ if (isset($_SESSION['numControl'])) {
       </div>
     </div>
 
+<!-- MODAL UPDATE PROJECTO -->
+    <div
+      class="modal fade"
+      id="ModalUpdateProject"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Proyecto</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="../ajax/updateProject.php" method="POST" enctype="multipart/form-data">
+
+              <input
+                  type="text"
+                  class="form-control"
+                  name="id"
+                  id="idProject"
+                />
+              <div class="form-group">
+                <label>Nombre del proyecto</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nombre"
+                  id="nombreUpdate"
+                />
+              </div>
+              <div class="form-group" id="inpNoControlUpdate">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="noControl"
+                  value="<?php echo $num_Control;?>"
+                />
+              </div>
+              <div class="form-group">
+                <label>Compañia</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="compania"
+                  id="companiaUpdate"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  name="fecha"
+                  id="inpFecha"
+                  style="display: block;"
+                />
+              </div>
+              <!-- <div class="form-group">
+              <label>Subir documento</label>
+              <input type="file" class="form-control-file" id="fileProject" name="archivo">
+              </div> -->
+
+              <div class="form-group">
+              <label>Documento</label>
+              <br>
+              <input type="text" class="form-control" id="link" name="ruta">
+              <a href="" id="linkDocument">Ver documento</a>
+              </div>
+              
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
     <script src="../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -226,27 +312,17 @@ if (isset($_SESSION['numControl'])) {
     <!-- Core plugin JavaScript-->
     <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
 
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"
+    ></script>
+
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
-    <script>
-
-    const Getfecha = () => {
-      var hoy = new Date();
-      var fecha = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
-      var hora =
-        hoy.getHours() +
-        ':' +
-        hoy.getMinutes() +
-        ':' +
-        hoy.getSeconds() +
-        ':' +
-        hoy.getMilliseconds();
     
-      return (fechaYHora = fecha + ' ' + hora);
-    };
-    var inp1 = document.getElementById('inpNoControl');
-    inp1.style.display = 'none';
-    document.getElementById('inp_fecha').value = Getfecha();
-    </script>
+    <script src="../js/projects.js"></script>
+
+    
   </body>
 </html>

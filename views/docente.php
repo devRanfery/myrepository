@@ -10,58 +10,55 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="vendor/bootstrap/css/bootstrap.min.css"
+      href="../vendor/bootstrap/css/bootstrap.min.css"
     />
     <!--===============================================================================================-->
     <link
       rel="stylesheet"
       type="text/css"
-      href="fonts/font-awesome-4.7.0/css/font-awesome.min.css"
+      href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css"
     />
     <!--===============================================================================================-->
     <link
       rel="stylesheet"
       type="text/css"
-      href="fonts/iconic/css/material-design-iconic-font.min.css"
+      href="../fonts/iconic/css/material-design-iconic-font.min.css"
     />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css" />
+    <link rel="stylesheet" type="text/css" href="../vendor/animate/animate.css" />
     <!--===============================================================================================-->
     <link
       rel="stylesheet"
       type="text/css"
-      href="vendor/css-hamburgers/hamburgers.min.css"
+      href="../vendor/css-hamburgers/hamburgers.min.css"
     />
     <!--===============================================================================================-->
     <link
       rel="stylesheet"
       type="text/css"
-      href="vendor/animsition/css/animsition.min.css"
+      href="../vendor/animsition/css/animsition.min.css"
     />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css" />
+    <link rel="stylesheet" type="text/css" href="../vendor/select2/select2.min.css" />
     <!--===============================================================================================-->
     <link
       rel="stylesheet"
       type="text/css"
-      href="vendor/daterangepicker/daterangepicker.css"
+      href="../vendor/daterangepicker/daterangepicker.css"
     />
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" href="css/util.css" />
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="../css/util.css" />
+    <link rel="stylesheet" type="text/css" href="../css/main.css" />
     <!--===============================================================================================-->
   </head>
   <body>
-  <div class="container-fluid" style="display: flex;justify-content: flex-end;">
-    <a href="./views/docente.php" style="text-decoration-line: revert; font-size: 18px;">Soy docente</a>
-    </div>
     <div class="limiter">
       <div class="container-login100">
         <div class="wrap-login100 p-b-20">
-          <form method="POST" action="./ajax/login.php" class="login100-form validate-form">
+          <form method="POST" action="./ajax/loginDocente.php" class="login100-form validate-form">
             <span class="login100-form-title p-b-70"> Bienvenido </span>
             <span class="login100-form-avatar">
-              <img src="./images/logotec.png" alt="AVATAR" />
+              <img src="../images/logotec.png" alt="AVATAR" />
             </span>
 
             <div
@@ -69,7 +66,7 @@
               data-validate="Enter username"
             >
               <input class="input100" type="text" name="username" />
-              <span class="focus-input100" data-placeholder="No. Control"></span>
+              <span class="focus-input100" data-placeholder="No. Docente"></span>
             </div>
 
             <div
@@ -79,11 +76,6 @@
               <input class="input100" type="password" name="pass" />
               <span class="focus-input100" data-placeholder="Contraseña"></span>
             </div>
-
-            <div class="container" style="text-align: center;">
-            <a href="" style="text-decoration-line: revert;">Registrate</a>
-            </div>
-            <br>
 
             <div class="container-login100-form-btn">
               <button type="submit" class="login100-form-btn"

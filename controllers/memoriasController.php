@@ -4,10 +4,10 @@ require_once('../models/memoriasModel.php');
 
 class memoriasController extends memoriasModel{
 
-    public function GetAllMemory()
+    public function GetAllMemory($numControl)
     {
         $resultado = new memoriasModel();
-        return $resultado->GetAllMemory();
+        return $resultado->GetAllMemory($numControl);
     }
 
     public function GetAllTypeMemory()
@@ -24,12 +24,6 @@ class memoriasController extends memoriasModel{
 
     public function updateMemory($data)
     {
-
-    //    echo json_encode($datos);
-        // $result = new memoriasModel();
-        // $resultadoMemoria= $result->updateMemory($data);
-        // echo $resultadoMemoria;
-
         $actualizarMemoria = memoriasModel::updateMemory($data);
     
         if ($actualizarMemoria) {
@@ -48,6 +42,29 @@ class memoriasController extends memoriasModel{
             
         }
         return $actualizarMemoria;
+    }
+
+    
+    public function deleteMemory($id)
+    {
+        $eliminarMemoria = memoriasModel::deleteMemory($id);
+    
+        if ($eliminarMemoria) {
+            echo "<script>
+            window.location= '../views/memorias.php';
+            alert('Se elimino correctamente');
+            </script>";
+            header('Location: ../views/memorias.php');
+        }
+        else{
+            echo "<script>
+            window.location= '../views/memorias.php';
+            alert('No se elimino correctamente');
+            </script>";
+            header('Location: ../views/memorias.php');
+            
+        }
+        return $eliminarMemoria;
     }
 
     public function CreateMemory(){

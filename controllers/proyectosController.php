@@ -47,4 +47,58 @@ class proyectosController extends proyectosModel{
         }
         echo $guardarProyecto;
     }
+
+    public function GetProjectOne($id)
+    {
+        $result = new proyectosModel();
+        return $result->GetProjectOne($id);
+    }
+
+
+    public function updateProject($data)
+    {
+        $actualizarProyecto = proyectosModel::updateProject($data);
+    
+        if ($actualizarProyecto) {
+            echo "<script>
+        
+            alert('Se actualizo correctamente');
+            </script>";
+            header('Location: ../views/proyectos.php');
+        }
+        else{
+            
+            echo "<script>
+          
+            alert('No se actualizo correctamente');
+            </script>";
+            header('Location: ../views/proyectos.php');
+            
+        }
+        return $actualizarProyecto;
+       
+    }
+
+
+    public function deleteProject($id)
+    {
+        $eliminarProyecto = proyectosModel::deleteProject($id);
+    
+        if ($eliminarProyecto) {
+            echo "<script>
+            window.location= '../views/proyectos.php';
+            alert('Se elimino correctamente');
+            </script>";
+            return $eliminarProyecto;
+        }
+        else{
+            echo "<script>
+            window.location= '../views/proyectos.php';
+            alert('No se elimino correctamente');
+            </script>";
+            return $eliminarProyecto;
+            
+        }
+        
+    }
 }

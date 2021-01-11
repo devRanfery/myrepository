@@ -40,4 +40,53 @@ class proyectosModel extends mainModel
 
         return $resultado;
     }
+
+    public function GetProjectOne($id)
+    {
+        $tabla = [];
+        $i = 0;
+
+        $sql = "SELECT * FROM Proyectos WHERE Id = $id";
+
+        $consulta = sqlsrv_query($this->db, $sql);
+
+        while ($fila = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)) {
+            $tabla[$i] = $fila;
+            $i++;
+        }
+        return json_encode($tabla);
+    }
+
+    public function updateProject($data)
+    {
+        
+        $Id = $data['Id'];
+        $Nombre = $data['Nombre'];
+        $Alumno = $data['Alumno'];
+        $Compania = $data['Compania'];
+        $Fecha = $data['Fecha'];
+        $Ruta = $data['Ruta'];
+
+        // $query = "INSERT INTO Memorias VALUES ('$Proyecto','$Asesor','$Tipo_Memoria','$Fecha')";
+        $query= "UPDATE Proyectos SET Nombre='$Nombre', Alumno='$Alumno', Compania='$Compania',
+        Fecha='$Fecha', Ruta='$Ruta' WHERE Id='$Id'";
+
+        $resultado = sqlsrv_query($this->db, $query);
+
+        return $resultado; 
+    }
+
+
+    public function deleteProject($id)
+    {
+        // echo json_encode($data['Id']);
+        $Id =  $id;
+
+        // $query = "INSERT INTO Memorias VALUES ('$Proyecto','$Asesor','$Tipo_Memoria','$Fecha')";
+        $query= "DELETE FROM Proyectos WHERE Id='$Id' ";
+
+        $resultado = sqlsrv_query($this->db, $query);
+
+        echo $resultado; 
+    }
 }

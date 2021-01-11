@@ -10,12 +10,12 @@ class memoriasModel extends mainModel
         $this->db = mainModel::conectar();
     }
 
-    public function GetAllMemory()
+    public function GetAllMemory($numControl)
     {
         $tabla = [];
         $i = 0;
 
-        $sql = "EXEC GetAllMemory";
+        $sql = "EXEC GetMemoryByStudent @numControl = '$numControl'";
 
         $consulta = sqlsrv_query($this->db, $sql);
 
@@ -75,6 +75,20 @@ class memoriasModel extends mainModel
 
         return $resultado; 
     }
+
+    public function deleteMemory($id)
+    {
+        // echo json_encode($data['Id']);
+        $Id =  $id;
+
+        // $query = "INSERT INTO Memorias VALUES ('$Proyecto','$Asesor','$Tipo_Memoria','$Fecha')";
+        $query= "DELETE FROM Memorias WHERE Id='$Id' ";
+
+        $resultado = sqlsrv_query($this->db, $query);
+
+        return $resultado; 
+    }
+
 
     
     public function AddMemory($data){

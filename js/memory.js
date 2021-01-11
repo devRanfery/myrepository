@@ -1,3 +1,5 @@
+$('#dataTable').DataTable();
+
 const Getfecha = () => {
   var hoy = new Date();
   var fecha = hoy.getFullYear() + '-' + (hoy.getMonth() + 1) + '-' + hoy.getDate();
@@ -46,6 +48,25 @@ const editMemory = async (id) => {
       $('#proyecto').val(data[0].Proyecto);
       $('#tipoMemoria').val(data[0].Tipo_Memoria);
       $('#asesor').val(data[0].Asesor);
+    },
+  });
+};
+
+const deleteMemory = async (id) => {
+  // console.log('si entra');
+  var data = { id: id };
+  await $.ajax({
+    url: '../ajax/deleteMemory.php',
+    method: 'POST',
+    data: data,
+    success: (response) => {
+      alert('Se elimino correctamente');
+      if (response) {
+        location.reload();
+      } else {
+        console.log('Save error');
+        location.reload();
+      }
     },
   });
 };

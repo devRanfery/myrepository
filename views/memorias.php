@@ -2,13 +2,14 @@
 session_start();
 
 if (isset($_SESSION['numControl'])) {
+  $num_Control = $_SESSION['numControl'];
   require_once('../controllers/memoriasController.php');
-  $filas = memoriasController::GetAllMemory();
+  $filas = memoriasController::GetAllMemory($num_Control);
 
   require_once('../controllers/memoriasController.php');
   $typesMemory = memoriasController::GetAllTypeMemory();
 
-  $num_Control = $_SESSION['numControl'];
+
   require_once('../controllers/asignacionesController.php');
   $adviser = asignacionesController::GetAdviserByStudent($num_Control);
 
@@ -30,6 +31,12 @@ if (isset($_SESSION['numControl'])) {
     />
     <meta name="description" content="" />
     <meta name="author" content="" />
+        <!-- Custom styles for this page -->
+        <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css"
+    />
 
     <title>My Repository</title>
 
@@ -84,7 +91,7 @@ if (isset($_SESSION['numControl'])) {
 
             <!-- Content Row -->
             <div class="row">
-              <div class="col-xl-12 col-md-6 mb-4">
+              <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mb-4">
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
                     <h6 class="m-0 font-weight-bold text-primary">Lista de proyectos</h6>
@@ -99,6 +106,7 @@ if (isset($_SESSION['numControl'])) {
                       >
                         <thead>
                           <tr>
+                            <th>Fecha</th>
                             <th>Proyecto</th>
                             <th>Compañia</th>
                             <th>Memoria</th>
@@ -113,10 +121,11 @@ if (isset($_SESSION['numControl'])) {
                           <?php
                           foreach($filas as $memoria){?>
                           <tr style="text-align: center">
-                            <td><?php echo $memoria['Proyecto']?></td>
+                            <td><?php echo date_format($memoria['Fecha'], 'Y-m-d')?></td>
+                            <td><?php echo $memoria['N_Proyecto']?></td>
                             <td><?php echo $memoria['Compania']?></td>
-                            <td><?php echo $memoria['Memoria']?></td>
-                            <td><?php echo $memoria['Docente']; echo $memoria['Ape_P']; echo $memoria['Ape_M'];?></td>
+                            <td><?php echo $memoria['Descripcion']?></td>
+                            <td><?php echo $memoria['Nombre']; echo $memoria['Ape_P']; echo $memoria['Ape_M'];?></td>
                             <td><a href="public/proyectos/<?php echo $memoria['Ruta']?>">Abrir</a></td>
                             <td>
                             <button class="btn btn-primary modificar" onclick="editMemory(<?php echo $memoria['Id']?>)">
@@ -443,6 +452,11 @@ if (isset($_SESSION['numControl'])) {
 
     <!-- Core plugin JavaScript-->
     <script src="../vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script
+      type="text/javascript"
+      charset="utf8"
+      src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"
+    ></script>
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
