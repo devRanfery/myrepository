@@ -55,7 +55,7 @@
     <div class="limiter">
       <div class="container-login100">
         <div class="wrap-login100 p-b-20">
-          <form method="POST" action="./ajax/loginDocente.php" class="login100-form validate-form">
+          <form method="POST" action="../ajax/loginDocente.php" class="login100-form validate-form">
             <span class="login100-form-title p-b-70"> Bienvenido </span>
             <span class="login100-form-avatar">
               <img src="../images/logotec.png" alt="AVATAR" />
@@ -65,7 +65,7 @@
               class="wrap-input100 validate-input m-t-35 m-b-35"
               data-validate="Enter username"
             >
-              <input class="input100" type="text" name="username" />
+              <input class="input100" type="text" name="no_Docente" />
               <span class="focus-input100" data-placeholder="No. Docente"></span>
             </div>
 
@@ -73,7 +73,7 @@
               class="wrap-input100 validate-input m-b-50"
               data-validate="Enter password"
             >
-              <input class="input100" type="password" name="pass" />
+              <input class="input100" type="password" name="passwrd" />
               <span class="focus-input100" data-placeholder="Contraseña"></span>
             </div>
 

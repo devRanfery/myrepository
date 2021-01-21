@@ -1,20 +1,21 @@
 <?php
 session_start();
 
-if (isset($_SESSION['numControl'])) {
-  $num_Control = $_SESSION['numControl'];
-  require_once('../controllers/memoriasController.php');
-  $filas = memoriasController::GetAllMemory($num_Control);
+if (isset($_SESSION['numDocente'])) {
+  $numDocente = $_SESSION['numDocente'];
 
   require_once('../controllers/memoriasController.php');
-  $typesMemory = memoriasController::GetAllTypeMemory();
+  $filas = memoriasController::GetAllMemorys($numDocente);
+
+//   require_once('../controllers/memoriasController.php');
+//   $typesMemory = memoriasController::GetAllTypeMemory();
 
 
-  require_once('../controllers/asignacionesController.php');
-  $adviser = asignacionesController::GetAdviserByStudent($num_Control);
+//   require_once('../controllers/asignacionesController.php');
+//   $adviser = asignacionesController::GetAdviserByStudent($num_Control);
 
-  require_once('../controllers/proyectosController.php');
-  $project= proyectosController::GetAllProjects($num_Control);
+//   require_once('../controllers/proyectosController.php');
+//   $project= proyectosController::GetAllProjects($num_Control);
 }else{
   header("Location: ../index.php");
 }
@@ -60,7 +61,7 @@ if (isset($_SESSION['numControl'])) {
     <div id="wrapper">
       <!-- Sidebar -->
       <?php
-      require_once('sidebar.php');
+      require_once('../views/sidebardocente.php');
       ?>
       <!-- End of Sidebar -->
 
@@ -70,7 +71,7 @@ if (isset($_SESSION['numControl'])) {
         <div id="content">
           <!-- Topbar -->
           <?php
-            require_once('navbar.php');
+            require_once('../views/navbar.php');
           ?>
           <!-- End of Topbar -->
 
@@ -79,14 +80,14 @@ if (isset($_SESSION['numControl'])) {
             <!-- Page Heading -->
             <div class="d-sm-flex align-items-center justify-content-between mb-4">
               <h1 class="h3 mb-0 text-gray-800">Memorias</h1>
-              <button
+              <!-- <button
                 type="button"
                 class="btn btn-primary"
                 data-toggle="modal"
                 data-target="#ModalAddMemory"
               >
                 Subir proyecto
-              </button>
+              </button> -->
             </div>
 
             <!-- Content Row -->
@@ -94,7 +95,7 @@ if (isset($_SESSION['numControl'])) {
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mb-4">
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Lista de proyectos</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Lista de memorias</h6>
                   </div>
                   <div class="card-body">
                     <div class="table-responsive">
@@ -107,13 +108,14 @@ if (isset($_SESSION['numControl'])) {
                         <thead>
                           <tr>
                             <th>Fecha</th>
+                            <th>No.Control</th>
+                            <th>Nombre Alumno</th>
                             <th>Proyecto</th>
                             <th>Compañia</th>
                             <th>Memoria</th>
                             <th>Asesor</th>
                             <th>Ruta</th>
-                            <th></th>
-                            <th></th>
+                          
                           </tr>
                         </thead>
 
@@ -122,19 +124,21 @@ if (isset($_SESSION['numControl'])) {
                           foreach($filas as $memoria){?>
                           <tr style="text-align: center">
                             <td><?php echo date_format($memoria['Fecha'], 'Y-m-d')?></td>
+                            <td><?php echo $memoria['Alumno']?></td>
+                            <td><?php echo $memoria['N_Alumno']?></td>
                             <td><?php echo $memoria['N_Proyecto']?></td>
                             <td><?php echo $memoria['Compania']?></td>
                             <td><?php echo $memoria['Descripcion']?></td>
                             <td><?php echo $memoria['Nombre']; echo $memoria['Ape_P']; echo $memoria['Ape_M'];?></td>
                             <td><a href="../public/proyectos/<?php echo $memoria['Ruta']?>">Abrir</a></td>
-                            <td>
-                            <button class="btn btn-primary modificar" onclick="editMemory(<?php echo $memoria['Id']?>)">
+                            <!-- <td>
+                            <button class="btn btn-primary modificar" onclick="editMemory()">
                               <i class="fas fa-edit text-white"></i></button>
-                            </td>
-                            <td>
-                              <button class="btn btn-danger eliminar" onclick="deleteMemory(<?php echo $memoria['Id']?>)">
+                            </td> -->
+                            <!-- <td>
+                              <button class="btn btn-danger eliminar" onclick="deleteMemory()">
                               <i class="fas fa-trash-alt text-white"></i></button>
-                            </td>
+                            </td> -->
                           </tr>
                           <?php } ?>
                         </tbody>
@@ -151,7 +155,7 @@ if (isset($_SESSION['numControl'])) {
 
         <!-- Footer -->
         <?php
-            require_once('footer.php');
+            require_once('../views/footer.php');
           ?>
         <!-- End of Footer -->
       </div>
@@ -195,7 +199,7 @@ if (isset($_SESSION['numControl'])) {
     </div>
 
     <!-- MODAL ADD MEMORY -->
-    <div
+    <!-- <div
       class="modal fade"
       id="ModalAddMemory"
       tabindex="-1"
@@ -314,11 +318,11 @@ if (isset($_SESSION['numControl'])) {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
 
     <!-- MODAL UPDATE MEMORY -->
-    <div
+    <!-- <div
       class="modal fade"
       id="ModalUpdateMemory"
       tabindex="-1"
@@ -444,7 +448,7 @@ if (isset($_SESSION['numControl'])) {
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <!-- Bootstrap core JavaScript-->
     <script src="../vendor/jquery/jquery.min.js"></script>
@@ -460,6 +464,9 @@ if (isset($_SESSION['numControl'])) {
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
-    <script src="../js/memory.js"></script>
+    <script>
+    $('#dataTable').DataTable();
+    </script>
+    <!-- <script src="../js/memory.js"></script> -->
   </body>
 </html>

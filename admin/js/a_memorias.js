@@ -1,4 +1,4 @@
-$('#dataTable').DataTable();
+$('#dataTableMemory').DataTable();
 
 const Getfecha = () => {
   var hoy = new Date();
@@ -40,9 +40,7 @@ const editMemory = async (id) => {
     method: 'POST',
     data: data,
     success: (response) => {
-      console.log(response);
       var data = JSON.parse(response);
-
       console.log(data[0].Proyecto);
       console.log(data[0].Tipo_Memoria);
 

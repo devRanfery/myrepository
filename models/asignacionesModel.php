@@ -8,6 +8,21 @@
         $this->db=mainModel::conectar();
     }
 
+    protected function GetAllAdviser(){
+        $tabla = [];
+        $i = 0;
+
+        $sql = "SELECT * FROM Asesores";
+
+        $consulta = sqlsrv_query($this->db, $sql);
+
+        while ($fila = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)) {
+            $tabla[$i] = $fila;
+            $i++;
+        }
+        return $tabla;
+    }
+
     protected function GetAdviserByStudent($numControl){
         $tabla = [];
         $i = 0;

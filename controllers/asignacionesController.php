@@ -4,6 +4,11 @@ require_once('../models/asignacionesModel.php');
 
 class asignacionesController extends asignacionesModel{
 
+    public function GetAllAdviser(){
+        $resultado = new asignacionesModel();
+        return $resultado->GetAllAdviser();
+    }
+
     public function GetAdviserByStudent($numControl){
         $resultado = new asignacionesModel();
         return $resultado->GetAdviserByStudent($numControl);

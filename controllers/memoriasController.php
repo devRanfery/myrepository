@@ -3,6 +3,17 @@ require_once('../models/memoriasModel.php');
 
 
 class memoriasController extends memoriasModel{
+    public function GetAllMemoryByAdmin()
+    {
+        $resultado = new memoriasModel();
+        return $resultado->GetAllMemoryByAdmin();
+    }
+
+    public function GetAllMemorys($numDocente)
+    {
+        $resultado = new memoriasModel();
+        return $resultado->GetAllMemorys($numDocente);
+    }
 
     public function GetAllMemory($numControl)
     {
@@ -31,14 +42,38 @@ class memoriasController extends memoriasModel{
             window.location= '../views/memorias.php';
             alert('Se actualizo correctamente');
             </script>";
-            header('Location: ../views/memorias.php');
+            // header('Location: ../views/memorias.php');
+            return $actualizarMemoria;
         }
         else{
             echo "<script>
             window.location= '../views/memorias.php';
             alert('No se actualizo correctamente');
             </script>";
-            header('Location: ../views/memorias.php');
+            // header('Location: ../views/memorias.php');
+            
+        }
+        
+    }
+
+    public function updateMemoryByAdmin($data)
+    {
+        $actualizarMemoria = memoriasModel::updateMemory($data);
+    
+        if ($actualizarMemoria) {
+            echo "<script>
+            window.location= '../admin/a_memorias.php';
+            alert('Se actualizo correctamente');
+            </script>";
+            // header('Location: ../views/memorias.php');
+           
+        }
+        else{
+            echo "<script>
+            window.location= '../admin/docente.php';
+            alert('No se actualizo correctamente');
+            </script>";
+            // header('Location: ../views/memorias.php');
             
         }
         return $actualizarMemoria;
@@ -115,6 +150,63 @@ class memoriasController extends memoriasModel{
                 if ($guardarMemoria) {
                     $mensaje = "SE GUARDO CORRECTAMENTE";
                     header('Location: ../views/memorias.php');
+                }
+                else{
+                    $mensaje = "NO SE GUARDO";
+                }
+                // echo $guardarMemoria;
+                return $guardarMemoria;
+        } 
+    }
+
+    public function CreateMemoryByAdmin(){
+        if ($_POST['tipoMemoria'] == 2) {
+
+                $asesores = array(
+                 $_POST['asesor'],
+                 $_POST['asesor2'],
+                 $_POST['asesor3'],
+                );
+    
+                $data = [];
+                $array_num = count($asesores);
+                for ($i = 0; $i < $array_num; ++$i){
+                    $Memoria = [
+                        "Proyecto"=> trim($_POST['proyecto']),
+                        "Asesor"=> $asesores[$i],
+                        "Tipo_Memoria"=> trim($_POST['tipoMemoria']),
+                        "Fecha" => trim($_POST['fechaMemoria']),
+                    ];
+                    array_push($data,  $Memoria);
+                }
+                
+            
+                $arrayNum = count($data);
+                for ($j = 0; $j < $arrayNum; ++$j){
+                    $guardarMemoria = memoriasModel::AddMemory($data[$j]);
+    
+                    if ($guardarMemoria) {
+                        $mensaje = "SE GUARDO CORRECTAMENTE";
+                        header('Location: ../admin/a_memoria.php');
+                    }
+                    else{
+                        $mensaje = "NO SE GUARDO";
+                    }
+                    echo $mensaje;
+                }
+        }else {
+                $datos = [
+                    "Proyecto"=> trim($_POST['proyecto']),
+                    "Asesor"=> trim($_POST['asesor']),
+                    "Tipo_Memoria"=> trim($_POST['tipoMemoria']),
+                    "Fecha" => trim($_POST['fechaMemoria']),
+                ];
+    
+                $guardarMemoria = memoriasModel::AddMemory($datos);
+    
+                if ($guardarMemoria) {
+                    $mensaje = "SE GUARDO CORRECTAMENTE";
+                    header('Location: ../admin/a_memorias.php');
                 }
                 else{
                     $mensaje = "NO SE GUARDO";

@@ -26,6 +26,22 @@ class proyectosModel extends mainModel
         return $tabla;
     }
 
+    public function GetAllProjectsByAdmin()
+    {
+        $tabla = [];
+        $i = 0;
+
+        $sql = "SELECT * FROM Proyectos";
+
+        $consulta = sqlsrv_query($this->db, $sql);
+
+        while ($fila = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)) {
+            $tabla[$i] = $fila;
+            $i++;
+        }
+        return $tabla;
+    }
+
     public function AddProject($data){
         $Nombre = $data['Nombre'];
         $Alumno = $data['Alumno'];

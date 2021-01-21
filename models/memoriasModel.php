@@ -10,6 +10,38 @@ class memoriasModel extends mainModel
         $this->db = mainModel::conectar();
     }
 
+    public function GetAllMemoryByAdmin()
+    {
+        $tabla = [];
+        $i = 0;
+
+        $sql = "EXEC GetAllMemoryByAdmin";
+
+        $consulta = sqlsrv_query($this->db, $sql);
+
+        while ($fila = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)) {
+            $tabla[$i] = $fila;
+            $i++;
+        }
+        return $tabla;
+    }
+
+    public function GetAllMemorys($numDocente)
+    {
+        $tabla = [];
+        $i = 0;
+
+        $sql = "EXEC GetMemoryByTeacher @numDocente = '$numDocente'";
+
+        $consulta = sqlsrv_query($this->db, $sql);
+
+        while ($fila = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)) {
+            $tabla[$i] = $fila;
+            $i++;
+        }
+        return $tabla;
+    }
+
     public function GetAllMemory($numControl)
     {
         $tabla = [];
@@ -41,6 +73,22 @@ class memoriasModel extends mainModel
         }
         return $tabla;
     }
+
+    // public function GetAllMemoryByAdmin()
+    // {
+    //     $tabla = [];
+    //     $i = 0;
+
+    //     $sql = "SELECT * FROM Memorias";
+
+    //     $consulta = sqlsrv_query($this->db, $sql);
+
+    //     while ($fila = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)) {
+    //         $tabla[$i] = $fila;
+    //         $i++;
+    //     }
+    //     return $tabla;
+    // }
 
     public function GetMemoryOne($id)
     {
@@ -88,9 +136,7 @@ class memoriasModel extends mainModel
 
         return $resultado; 
     }
-
-
-    
+ 
     public function AddMemory($data){
        
         $Proyecto = $data['Proyecto'];

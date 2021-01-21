@@ -10,9 +10,15 @@ class proyectosController extends proyectosModel{
         return $resultado->GetAllProjects($num_Control);
     }
 
+    public function GetAllProjectsByAdmin()
+    {
+        $resultado = new proyectosModel();
+        return $resultado->GetAllProjectsByAdmin();
+    }
+
     public function CreateProject(){
     
-        $ruta = "../public/proyectos/".$_FILES['archivo']['name'];
+        $ruta = $_FILES['archivo']['name'];
         move_uploaded_file($_FILES['archivo']['tmp_name'], $ruta);
        
       

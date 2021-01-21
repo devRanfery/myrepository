@@ -10,18 +10,9 @@
 
 
     public function Login($username, $passwrd){
-
-
-        // $sql= "EXEC loginAlumnos @numControl=$username, @contrasena=$passwrd";
         $sql= "EXEC loginAlumnos @numControl = '$username', @contrasena = '$passwrd'";
-
         $stmt = sqlsrv_query($this->db, $sql);
-
         $row_count = sqlsrv_has_rows($stmt); 
-
-        echo $row_count;
-       
-        
         if ($row_count === true) {
             $tabla = [];
             $i = 0;
@@ -53,19 +44,46 @@
         }
     }
 
-    // protected function GetAllAlumnos(){
-    //     $tabla = [];
-    //     $i = 0;
+    public function LoginDocente($noDocente, $passwrd){
+        $sql= "EXEC loginDocente @numDocente = '$noDocente', @contrasena = '$passwrd'";
+        $stmt = sqlsrv_query($this->db, $sql);
+        $row_count = sqlsrv_has_rows($stmt); 
+        if ($row_count === true) {
+            $tabla = [];
+            $i = 0;
+        
+            while ($fila = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)) {
+                $tabla[$i] = $fila;
+                $i++;
+            }
 
-    //     $sql = "SELECT * FROM Alumnos";
+            $numDocente = $tabla[0]["Num_Docente"];
+            $nombre = $tabla[0]["Nombre"] .' ' .$tabla[0]["Ape_P"] .' ' .$tabla[0]["Ape_M"];
+            // $ape_p = $tabla[0]["Ape_P"];
+            // $ape_m = $tabla[0]["Ape_M"];
+            $rol = $tabla[0]["Rol"];
 
-    //     $consulta = sqlsrv_query($this->db, $sql);
+            $UrlDocente = "http://localhost/Tecrepo/admin/memorias.php";
+            $UrlAdmin = "http://localhost/Tecrepo/admin/a_memorias.php";
+            
+            if ($rol == 3) {
+                session_start();
+                $_SESSION['numDocente']= $numDocente;
+                $_SESSION['nombre'] = $nombre;
+                $_SESSION['rol']=$rol;
+                header("Location: $UrlDocente");
+            }elseif($rol== 1){
+                session_start();
+                $_SESSION['numDocente']= $numDocente;
+                $_SESSION['nombre'] = $nombre;
+                $_SESSION['rol']=$rol;
+                header("Location: $UrlAdmin");
+            }
 
-    //     while ($fila = sqlsrv_fetch_array($consulta, SQLSRV_FETCH_ASSOC)) {
-    //         $tabla[$i] = $fila;
-    //         $i++;
-    //     }
-    //     return $tabla;
+        }else{
+            $login = "http://localhost/Tecrepo/views/docente.php";
+            header("Location: $login");
+        }
+    }
 
-    // }
  }

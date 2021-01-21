@@ -1,20 +1,22 @@
 <?php
 session_start();
 
-if (isset($_SESSION['numControl'])) {
-  $num_Control = $_SESSION['numControl'];
+if (isset($_SESSION['numDocente'])) {
+  $numDocente = $_SESSION['numDocente'];
+
   require_once('../controllers/memoriasController.php');
-  $filas = memoriasController::GetAllMemory($num_Control);
+  $filas = memoriasController::GetAllMemoryByAdmin();
+  // echo $numDocente;
 
   require_once('../controllers/memoriasController.php');
   $typesMemory = memoriasController::GetAllTypeMemory();
 
 
   require_once('../controllers/asignacionesController.php');
-  $adviser = asignacionesController::GetAdviserByStudent($num_Control);
+  $adviser = asignacionesController::GetAllAdviser();
 
   require_once('../controllers/proyectosController.php');
-  $project= proyectosController::GetAllProjects($num_Control);
+  $project= proyectosController::GetAllProjectsByAdmin();
 }else{
   header("Location: ../index.php");
 }
@@ -60,7 +62,7 @@ if (isset($_SESSION['numControl'])) {
     <div id="wrapper">
       <!-- Sidebar -->
       <?php
-      require_once('sidebar.php');
+      require_once('../views/sidebaradministrador.php');
       ?>
       <!-- End of Sidebar -->
 
@@ -70,7 +72,7 @@ if (isset($_SESSION['numControl'])) {
         <div id="content">
           <!-- Topbar -->
           <?php
-            require_once('navbar.php');
+            require_once('../views/navbar.php');
           ?>
           <!-- End of Topbar -->
 
@@ -94,19 +96,21 @@ if (isset($_SESSION['numControl'])) {
               <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 mb-4">
                 <div class="card shadow mb-4">
                   <div class="card-header py-3">
-                    <h6 class="m-0 font-weight-bold text-primary">Lista de proyectos</h6>
+                    <h6 class="m-0 font-weight-bold text-primary">Lista de memorias</h6>
                   </div>
                   <div class="card-body">
                     <div class="table-responsive">
                       <table
                         class="table table-bordered"
-                        id="dataTable"
+                        id="dataTableMemory"
                         width="100%"
                         cellspacing="0"
                       >
                         <thead>
                           <tr>
                             <th>Fecha</th>
+                            <th>No.Control</th>
+                            <th>Nombre Alumno</th>
                             <th>Proyecto</th>
                             <th>Compañia</th>
                             <th>Memoria</th>
@@ -122,6 +126,8 @@ if (isset($_SESSION['numControl'])) {
                           foreach($filas as $memoria){?>
                           <tr style="text-align: center">
                             <td><?php echo date_format($memoria['Fecha'], 'Y-m-d')?></td>
+                            <td><?php echo $memoria['Alumno']?></td>
+                            <td><?php echo $memoria['N_Alumno']?></td>
                             <td><?php echo $memoria['N_Proyecto']?></td>
                             <td><?php echo $memoria['Compania']?></td>
                             <td><?php echo $memoria['Descripcion']?></td>
@@ -151,7 +157,7 @@ if (isset($_SESSION['numControl'])) {
 
         <!-- Footer -->
         <?php
-            require_once('footer.php');
+            require_once('../views/footer.php');
           ?>
         <!-- End of Footer -->
       </div>
@@ -211,7 +217,7 @@ if (isset($_SESSION['numControl'])) {
             </button>
           </div>
           <div class="modal-body">
-            <form action="../ajax/addMemory.php" method="POST" enctype="multipart/form-data">
+            <form action="../ajax/addMemoryByAdmin.php" method="POST" enctype="multipart/form-data">
 
             <div class="form-group">
                 <label>Proyecto</label>
@@ -247,7 +253,7 @@ if (isset($_SESSION['numControl'])) {
                 <select class="form-control" name="asesor">
                 <option selected>Seleccionar</option>
                 <?php foreach($adviser as $asesor){?>
-                      <option value=<?php echo $asesor['Asesor'];?>>
+                      <option value=<?php echo $asesor['Num_Docente'];?>>
                       <?php 
                       echo $asesor['Nombre']; 
                       echo ' ';
@@ -255,7 +261,6 @@ if (isset($_SESSION['numControl'])) {
                       echo ' '; 
                       echo $asesor['Ape_M'];
                       ?>
-                      <strong>(<?php  echo $asesor['Descripcion'];?>)</strong>
                       </option>
                 <?php } ?>
                 </select>
@@ -266,7 +271,7 @@ if (isset($_SESSION['numControl'])) {
                 <select class="form-control" name="asesor2">
                 <option selected>Seleccionar</option>
                 <?php foreach($adviser as $asesor){?>
-                      <option value=<?php echo $asesor['Asesor'];?>>
+                      <option value=<?php echo $asesor['Num_Docente'];?>>
                       <?php 
                       echo $asesor['Nombre']; 
                       echo ' ';
@@ -274,7 +279,6 @@ if (isset($_SESSION['numControl'])) {
                       echo ' '; 
                       echo $asesor['Ape_M'];
                       ?>
-                      <strong>(<?php  echo $asesor['Descripcion'];?>)</strong>
                       </option>
                 <?php } ?>
                 </select>
@@ -285,7 +289,7 @@ if (isset($_SESSION['numControl'])) {
                 <select class="form-control" name="asesor3">
                 <option selected>Seleccionar</option>
                 <?php foreach($adviser as $asesor){?>
-                      <option value=<?php echo $asesor['Asesor'];?>>
+                      <option value=<?php echo $asesor['Num_Docente'];?>>
                       <?php 
                       echo $asesor['Nombre']; 
                       echo ' ';
@@ -293,7 +297,6 @@ if (isset($_SESSION['numControl'])) {
                       echo ' '; 
                       echo $asesor['Ape_M'];
                       ?>
-                      <strong>(<?php  echo $asesor['Descripcion'];?>)</strong>
                       </option>
                 <?php } ?>
                 </select>
@@ -334,7 +337,7 @@ if (isset($_SESSION['numControl'])) {
             </button>
           </div>
           <div class="modal-body">
-            <form action="../ajax/updateMemory.php" method="POST" enctype="multipart/form-data">
+            <form action="../ajax/updateMemoryByAdmin.php" method="POST" enctype="multipart/form-data">
             <input
                   type="text"
                   class="form-control"
@@ -377,7 +380,7 @@ if (isset($_SESSION['numControl'])) {
                 <select class="form-control" name="asesor" id="asesor">
                 <option selected>Seleccionar</option>
                 <?php foreach($adviser as $asesor){?>
-                      <option value=<?php echo $asesor['Asesor'];?>>
+                      <option value=<?php echo $asesor['Num_Docente'];?>>
                       <?php 
                       echo $asesor['Nombre']; 
                       echo ' ';
@@ -385,7 +388,6 @@ if (isset($_SESSION['numControl'])) {
                       echo ' '; 
                       echo $asesor['Ape_M'];
                       ?>
-                      <strong>(<?php  echo $asesor['Descripcion'];?>)</strong>
                       </option>
                 <?php } ?>
                 </select>
@@ -415,7 +417,7 @@ if (isset($_SESSION['numControl'])) {
                 <select class="form-control" name="asesor3">
                 <option selected>Seleccionar</option>
                 <?php foreach($adviser as $asesor){?>
-                      <option value=<?php echo $asesor['Asesor'];?>>
+                      <option value=<?php echo $asesor['Num_Asesor'];?>>
                       <?php 
                       echo $asesor['Nombre']; 
                       echo ' ';
@@ -423,7 +425,6 @@ if (isset($_SESSION['numControl'])) {
                       echo ' '; 
                       echo $asesor['Ape_M'];
                       ?>
-                      <strong>(<?php  echo $asesor['Descripcion'];?>)</strong>
                       </option>
                 <?php } ?>
                 </select>
@@ -460,6 +461,6 @@ if (isset($_SESSION['numControl'])) {
 
     <!-- Custom scripts for all pages-->
     <script src="../js/sb-admin-2.min.js"></script>
-    <script src="../js/memory.js"></script>
+    <script src="./js/a_memorias.js"></script>
   </body>
 </html>

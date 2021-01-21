@@ -123,7 +123,7 @@ if (isset($_SESSION['numControl'])) {
                             <td><?php echo 
                             date_format($proyecto['Fecha'], 'Y-m-d')
                             ?></td>
-                            <td><a href="<?php echo $proyecto['Ruta']?>">Abrir</a></td>
+                            <td><a href="../public/proyectos/<?php echo $proyecto['Ruta']?>">Abrir</a></td>
                             <td>
                             <button class="btn btn-primary" onclick="editProject(<?php echo $proyecto['Id']?>)">
                               <i class="fas fa-edit text-white"></i></button>
@@ -250,6 +250,7 @@ if (isset($_SESSION['numControl'])) {
                   class="form-control"
                   name="id"
                   id="idProject"
+                  style="display:none"
                 />
               <div class="form-group">
                 <label>Nombre del proyecto</label>
@@ -283,7 +284,7 @@ if (isset($_SESSION['numControl'])) {
                   class="form-control"
                   name="fecha"
                   id="inpFecha"
-                  style="display: block;"
+                  style="display: none;"
                 />
               </div>
               <!-- <div class="form-group">
@@ -294,7 +295,7 @@ if (isset($_SESSION['numControl'])) {
               <div class="form-group">
               <label>Documento</label>
               <br>
-              <input type="text" class="form-control" id="link" name="ruta">
+              <input type="text" class="form-control" id="link" name="ruta" style="display:none;">
               <a href="" id="linkDocument">Ver documento</a>
               </div>
               
